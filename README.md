@@ -134,7 +134,7 @@ Executar no Postman a API para consultar um filme passando os seguintes parâmet
 | GET  | http://localhost:8080/api/buscarFilme?titulo= |
 | ---- | --------------------------------------------- |
 
-![image-20220629203551170](<img src="/DesafioFilmes/typora-user-images/image-20220629203543644.png>)
+<img src="/DesafioFilmes/typora-user-images/image-20220629203543644.png>
 
 Resposta:
 
