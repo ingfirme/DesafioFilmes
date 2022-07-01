@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  mysql_db:
+    image: "mysql"
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: desafioitau
+      MYSQL_USER: ingrid
+      MYSQL_PASSWORD: ing009**
+      MYSQL_ROOT_PASSWORD: ing009**
