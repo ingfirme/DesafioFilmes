@@ -60,7 +60,7 @@ java -jar target/ProjetoIngrid-0.0.1-SNAPSHOT.jar
 
 **3 - Importar a coleção e variáveis de ambiente contidas na pasta "collectionPostman" para o Postman**
 
-
+**4 - Para as APIs 3,4,5,6,7 deve ser informado um token de authenticação gerado pela API 2 - Realizar login, caso não seja informado o usuario não terá acesso aos recursos.
 
 ## Execução das APIs com Postman
 
