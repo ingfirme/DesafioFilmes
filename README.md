@@ -99,9 +99,6 @@ Resposta: todos os usuários cadastrados iniciam com o perfil 1 - LEITOR
 }
 ```
 
-Obs: Caso o usuário erre a senha 4 vezes será exibida a mensagem "limite de tentativas de login excedidas" 
-
-
 **2 - Realizar login**
 
 Executar no Postman a API para fazer login passando os seguintes parâmetros:
@@ -122,7 +119,7 @@ Resposta:
 
 * Usuário correto e senha incorreta: senha inválida;
 
-* Usuário correto e senha incorreta apos 3 tentativas: limite de tentativas excedido;
+* Usuário correto e senha incorreta apos 4 tentativas: limite de tentativas excedido;
 
 * Usuário incorreto: usuário não cadastrado.
 
@@ -276,7 +273,7 @@ Obs: Caso o usuário não possua o perfil acima de BÁSICO, ele não poderá exe
 ```json
 {
 	"id_comentario":"1",
-    "reacao": true
+    	"reacao": true
 }
 ```
 
@@ -304,7 +301,7 @@ Obs: Caso o usuário não possua o perfil acima de BÁSICO, ele não poderá exe
 
 ```json
 {
-	"id_comentario":"1",
+    "id_comentario":"1",
     "titulo":"{{titulo}}",
     "comentario":"Olha, realmente aconteceu oq voce disse"
 }
