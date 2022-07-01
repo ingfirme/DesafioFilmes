@@ -1,2 +1,258 @@
-# DesafioFilmes
-Repositorio do desafio de avaliacao de filmes
+# Desafio Itaú - Ingrid Cordeiro Firme
+
+## Objetivo
+
+Criar uma aplicação Back-end que tenha como finalidade buscar um filme em uma API externa, receber e armazenar comentários e notas sobre o filme buscado e de acordo com o tipo do perfil do usuário executar outras funcionalidades. Cada ação realizada concede um ponto para o usuário e conforme o acúmulo de pontos são disponibilizadas novas funcionalidades.
+
+<u>Tipos de Perfil</u>
+
+1 - LEITOR: Após o cadastro, esse usuário poderá logar e buscar por um filme. Ele poderá ver as informações, comentários e dar  nota para um filme. A cada avaliação, ele ganhará 1 ponto em seu perfil.
+
+2 - BÁSICO: O usuário LEITOR poderá se tornar BÁSICO quando adquirir 20 pontos. Nesse perfil será possível postar comentários, notas e responder comentários ganhando 1 ponto a cada ação realizada. 
+
+3 - AVANÇADO: O usuário BÁSICO poderá se tornar AVANÇADO quando adquirir 100 pontos. Esse perfil tem as capacidades do BÁSICO, reagir a comentários com “gostei” ou "não gostei” e citar comentários feitos por outros usuários.
+
+4 - MODERADOR: Um usuário poderá se tornar MODERADOR de 2 formas: um moderador torna outro usuário moderador ou quando atingir 1000 pontos.  O moderador além das capacidades do perfil AVANÇADO poderá alterar o perfil de outro usuário para moderador, excluir comentários e marcar comentários repetidos.
+
+
+
+## Construído com
+
+* Java 17
+* Maven
+* Spring Boot 
+* Spring Boot Cloud
+* Spring Boot Security
+* Flyway
+* MySQL
+* Redis
+
+
+
+
+## Requisitos
+
+* Java 
+* Docker
+* Postman
+
+
+
+##  Instalação
+
+**1 - Executar a seguinte linha de comando no terminal para iniciar banco de dados MySQL através do Docker**
+
+```
+docker-compose up
+```
+
+**1 - Executar a seguinte linha de comando no terminal para iniciar banco de dados Redis através do Docker**
+
+```
+docker run --name redis -p 6379:6379 redis:5.0.3
+```
+
+**2 - Executar o arquivo ".jar" para subir a aplicação**
+
+```
+java -jar target/ProjetoIngrid-0.0.1-SNAPSHOT.jar
+```
+
+**3 - Importar a coleção e variáveis de ambiente contidas na pasta "collectionPostman" para o Postman**
+
+
+
+## Execução das APIs com Postman
+
+**1 - Criar usuário**
+
+Executar no Postman a API para criar usuários passando os seguintes parâmetros:
+
+| POST | http://localhost:8080/api/users |
+| ---- | ------------------------------- |
+
+```json
+{
+	"nome":"Nome Teste",
+	"sobrenome":"Sobrenome Teste",
+	"email":"teste@teste.com",
+	"idade":"31",
+	"senha":"senhausuario"
+}
+```
+
+Resposta: todos os usuários cadastrados iniciam com o perfil 1 - LEITOR
+
+```json
+{
+    "nickname": 2,
+    "nome": "Nome Teste",
+    "sobrenome": "SObrenome Teste",
+    "email": "teste@teste.com",
+    "idade": "31",
+    "senha": "senhausuario",
+    "qtde_nota": 0,
+    "qtde_comentario": 0,
+    "qtde_resposta": 0,
+    "qtde_total": 0,
+    "id_perfil": 1
+}
+```
+
+
+
+**2 - Realizar login**
+
+Executar no Postman a API para fazer login passando os seguintes parâmetros:
+
+| POST | http://localhost:8080/api/login |
+| ---- | ------------------------------- |
+
+```json
+{
+    "usuario":"teste@teste.com",
+    "senha":"senhausuario"
+}
+```
+
+Resposta:
+
+* Usuário e senha digitados corretamente: login feito com sucesso + token de validação de segurança gerado;
+
+* Usuário correto e senha incorreta: senha inválida;
+
+* Usuário correto e senha incorreta apos 3 tentativas: limite de tentativas excedido;
+
+* Usuário incorreto: usuário não cadastrado.
+
+  
+
+**3 - Buscar um filme na API externa**
+
+Executar no Postman a API para consultar um filme passando os seguintes parâmetros:
+
+| GET  | http://localhost:8080/api/buscarFilme?titulo= |
+| ---- | --------------------------------------------- |
+
+![image-20220629203551170](C:\Users\vinic\AppData\Roaming\Typora\typora-user-images\image-20220629203551170.png)
+
+Resposta:
+
+```json
+{
+    "year": "1997",
+    "director": "James Cameron",
+    "writer": "James Cameron",
+    "title": "Titanic",
+    "plot": "A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.",
+    "genre": "Drama, Romance",
+    "actors": "Leonardo DiCaprio, Kate Winslet, Billy Zane"
+}
+```
+
+
+
+**4 - Buscar comentários sobre um filme**
+
+Executar no Postman a API para consultar os comentários de um filme. O parâmetro é automaticamente o título do filme que foi buscado na API (3)
+
+| GET  | http://localhost:8080/api/comentarios?titulo={{titulo}} |
+| ---- | ------------------------------------------------------- |
+
+![image-20220629214046769](C:\Users\vinic\AppData\Roaming\Typora\typora-user-images\image-20220629214046769.png)
+
+Resposta:
+
+```json
+[
+    {
+        "id_comentario": 1,
+        "titulo": "Titanic",
+        "nickname": 2,
+        "comentario": "Filme muito legal"
+    }
+]
+```
+
+
+
+**5 - Avaliar com uma nota (1 a 5) o filme buscado**
+
+Executar no Postman a API para criticar um filme passando os seguintes parâmetros: O parâmetro titulo é automaticamente o preenchido com o filme que foi buscado na API (3)
+
+| POST | http://localhost:8080/api/nota |
+| ---- | ------------------------------ |
+
+```json
+{
+	"titulo":"{{titulo}}",
+	"nota":"5"
+}
+```
+
+Resposta:
+
+```json
+{
+    "id_nota": 13,
+    "titulo": "Titanic",
+    "nickname": 2,
+    "nota": 5
+}
+```
+
+
+
+**6 - Fazer um comentário sobre o filme buscado**
+
+Executar no Postman a API para cadastrar um comentário passando os seguintes parâmetros: O parâmetro titulo é automaticamente o preenchido com o filme que foi buscado na API (3)
+
+Obs: Caso o usuário não possua o perfil acima de LEITOR, ele não poderá executar essa ação. 
+
+| POST | http://localhost:8080/api/comentario |
+| ---- | ------------------------------------ |
+
+```json
+{
+	"titulo":"{{titulo}}",
+	"comentario":"Filme muito legal"
+}
+```
+
+Resposta:
+
+```json
+{
+    "id_comentario": 1,
+    "titulo": "Titanic",
+    "nickname": 2,
+    "comentario": "Filme muito legal"
+}
+```
+
+
+
+**7 - Responder um comentário de outro usuário**
+
+Executar no Postman a API para responder o comentário passando os seguintes parâmetros: 
+
+Obs: Caso o usuário não possua o perfil acima de LEITOR, ele não poderá executar essa ação. 
+
+| POST | http://localhost:8080/api/resposta_comentario?id_comentario=1 |
+| ---- | ------------------------------------------------------------ |
+
+![image-20220629215032410](C:\Users\vinic\AppData\Roaming\Typora\typora-user-images\image-20220629215032410.png)
+
+```json
+{
+	"comentario":"Concordo, o filme é sensacional"
+}
+```
+
+Resposta:
+
+```json
+{
+    "id_resposta_comentario": 2,
+    "nickname": 2,
+
