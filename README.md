@@ -52,10 +52,10 @@ docker-compose up
 docker run --name redis -p 6379:6379 redis:5.0.3
 ```
 
-**2 - Executar o arquivo ".jar" para subir a aplicação**
+**2 - Executar o arquivo ".jar" que está no diretorio "target" para subir a aplicação com o seguinte código no terminal:**
 
 ```
-java -jar target/ProjetoIngrid-0.0.1-SNAPSHOT.jar
+java -jar .\ProjetoIngrid-0.0.1-SNAPSHOT.jar
 ```
 
 **3 - Importar a coleção e variáveis de ambiente contidas na pasta "collectionPostman" para o Postman**
